@@ -1,0 +1,53 @@
+<div class="page-container">
+  <div class="page-header">
+    <h2>📖 Contenu programmé</h2>
+    <button mat-flat-button color="primary" (click)="openCreate()">
+      <mat-icon>add</mat-icon>
+      Ajouter du contenu
+    </button>
+  </div>
+
+  <mat-card>
+    @if (!loading() && items().length === 0) {
+      <div class="empty-state">Aucun contenu programmé</div>
+    } @else {
+      <table mat-table [dataSource]="items()" class="full-width-table">
+        <ng-container matColumnDef="type">
+          <th mat-header-cell *matHeaderCellDef>Type</th>
+          <td mat-cell *matCellDef="let c">
+            <mat-chip class="type-chip" [class]="'type-' + c.type">{{ c.type }}</mat-chip>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="content">
+          <th mat-header-cell *matHeaderCellDef>Contenu</th>
+          <td mat-cell *matCellDef="let c" class="truncate-cell">
+            {{ c.content_fr || c.content_ar || '—' }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="source">
+          <th mat-header-cell *matHeaderCellDef>Source</th>
+          <td mat-cell *matCellDef="let c">{{ c.source || '—' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef>Date programmée</th>
+          <td mat-cell *matCellDef="let c">{{ c.scheduled_date }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let c">
+            <button mat-icon-button color="warn" (click)="remove(c)" aria-label="Supprimer">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    }
+  </mat-card>
+</div>

@@ -1,0 +1,50 @@
+<h2 mat-dialog-title>Ajouter du contenu</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="form" class="dialog-form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Modèles prêts à l'emploi</mat-label>
+      <mat-select (selectionChange)="applyTemplate($event.value)">
+        @for (option of templateOptions(); track option.label) {
+          <mat-option [value]="option">{{ option.label }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Type *</mat-label>
+        <mat-select formControlName="type">
+          @for (t of types; track t.value) {
+            <mat-option [value]="t.value">{{ t.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Date de publication *</mat-label>
+        <input matInput type="date" formControlName="scheduled_date" />
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Texte en arabe</mat-label>
+      <textarea matInput rows="2" class="rtl-textarea" formControlName="content_ar" placeholder="النص العربي..."></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Texte en français *</mat-label>
+      <textarea matInput rows="3" formControlName="content_fr" placeholder="Traduction française..."></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Source</mat-label>
+      <input matInput formControlName="source" placeholder="Bukhari, Muslim, Sourate Al-Baqara..." />
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="null">Annuler</button>
+  <button mat-flat-button color="primary" (click)="save()">💾 Programmer</button>
+</mat-dialog-actions>

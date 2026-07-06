@@ -1,0 +1,22 @@
+.dialog-form {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 480px;
+  max-width: 100%;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.rtl-textarea {
+  direction: rtl;
+  text-align: right;
+}

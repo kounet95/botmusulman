@@ -1,0 +1,220 @@
+<div class="onboarding-page">
+  <div class="onboarding-header">
+    <h1>🌙 Ajouter un nouveau Mawaqit</h1>
+    <p>Complétez le profil de votre mosquée — cela ne prend que quelques minutes.</p>
+  </div>
+
+  <mat-stepper orientation="vertical" linear class="onboarding-stepper">
+    <!-- ── Étape 1 : Type ── -->
+    <mat-step [stepControl]="typeForm" label="Type d'installation">
+      <form [formGroup]="typeForm">
+        <div class="type-grid">
+          @for (t of installationTypes; track t.value) {
+            <button
+              type="button"
+              class="type-card"
+              [class.selected]="typeForm.controls.installation_type.value === t.value"
+              (click)="typeForm.controls.installation_type.setValue(t.value)"
+            >
+              <mat-icon>{{ t.icon }}</mat-icon>
+              <span>{{ t.label }}</span>
+            </button>
+          }
+        </div>
+
+        <div class="info-banner">
+          <mat-icon>info</mat-icon>
+          <div>
+            Assurez-vous d'avoir à votre disposition :
+            <ul>
+              <li>Une photo claire au format paysage de l'extérieur</li>
+              <li>Une photo claire au format paysage de l'intérieur</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="step-actions">
+          <button mat-flat-button color="primary" matStepperNext (click)="saveStep('type')">
+            Continuer
+          </button>
+        </div>
+      </form>
+    </mat-step>
+
+    <!-- ── Étape 2 : Informations générales ── -->
+    <mat-step [stepControl]="infoForm" label="Informations générales">
+      <form [formGroup]="infoForm" class="step-form">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Nom *</mat-label>
+          <input matInput formControlName="name" placeholder="Ex. Mosquée Essunna, Mon domicile" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Adresse *</mat-label>
+          <input matInput formControlName="address" placeholder="Ex. 5 rue de Paris" />
+        </mat-form-field>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline">
+            <mat-label>Ville *</mat-label>
+            <input matInput formControlName="city" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Code postal *</mat-label>
+            <input matInput formControlName="postal_code" />
+          </mat-form-field>
+        </div>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Pays *</mat-label>
+          <mat-select formControlName="country">
+            @for (c of countries; track c.code) {
+              <mat-option [value]="c.code">{{ c.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Nom de l'association</mat-label>
+          <input matInput formControlName="association_name" />
+        </mat-form-field>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline">
+            <mat-label>Téléphone</mat-label>
+            <input matInput formControlName="phone" placeholder="+224 6X XX XX XX" />
+            <mat-hint>Affiché sur les écrans TV et mobile</mat-hint>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Adresse mail</mat-label>
+            <input matInput type="email" formControlName="email" />
+            <mat-hint>Affichée sur les écrans TV et mobile</mat-hint>
+          </mat-form-field>
+        </div>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Site internet</mat-label>
+          <input matInput type="url" formControlName="website" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Site de paiement en ligne</mat-label>
+          <input matInput type="url" formControlName="payment_url" placeholder="https://paypal.me/mosquee-essunna" />
+          <mat-hint>Lien pour recevoir vos dons</mat-hint>
+        </mat-form-field>
+
+        <div class="step-actions">
+          <button mat-button matStepperPrevious>Retour</button>
+          <button mat-flat-button color="primary" matStepperNext (click)="saveStep('info')">
+            Continuer
+          </button>
+        </div>
+      </form>
+    </mat-step>
+
+    <!-- ── Étape 3 : Installations et services ── -->
+    <mat-step [stepControl]="detailsForm" label="Installations et services">
+      <form [formGroup]="detailsForm" class="step-form">
+        <div class="amenities-grid" formArrayName="amenities">
+          @for (a of amenities; track a.key; let i = $index) {
+            <mat-checkbox [formControlName]="i">{{ a.label }}</mat-checkbox>
+          }
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline">
+            <mat-label>Année de construction</mat-label>
+            <input matInput type="number" formControlName="construction_year" placeholder="yyyy" />
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline">
+            <mat-label>Capacité (femmes)</mat-label>
+            <input matInput type="number" formControlName="capacity_women" />
+            <mat-hint>Capacité maximale pour une prière des femmes</mat-hint>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Capacité (hommes)</mat-label>
+            <input matInput type="number" formControlName="capacity_men" />
+            <mat-hint>Capacité maximale pour une prière des hommes</mat-hint>
+          </mat-form-field>
+        </div>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Une brève histoire de la mosquée</mat-label>
+          <textarea matInput rows="2" maxlength="200" formControlName="history" placeholder="Bref résumé de l'historique (200 caractères max)"></textarea>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Autres infos</mat-label>
+          <textarea matInput rows="2" maxlength="200" formControlName="other_info" placeholder="Ex: Horaires d'ouverture et fermeture (200 caractères max)"></textarea>
+        </mat-form-field>
+
+        <div class="step-actions">
+          <button mat-button matStepperPrevious>Retour</button>
+          <button mat-flat-button color="primary" matStepperNext (click)="saveStep('details')">
+            Continuer
+          </button>
+        </div>
+      </form>
+    </mat-step>
+
+    <!-- ── Étape 4 : Photos ── -->
+    <mat-step label="Photos">
+      <div class="step-form">
+        <div class="photo-upload">
+          <label class="photo-label">
+            Photo de la mosquée depuis l'extérieur *
+            <span class="photo-hint">Format paysage, 800x450 px minimum. Aucun visage ni plaque d'immatriculation.</span>
+          </label>
+          <input type="file" accept="image/*" (change)="onPhotoSelected('exterior', $event)" />
+          @if (uploading() === 'exterior') {
+            <mat-spinner diameter="20"></mat-spinner>
+          }
+          @if (photoUrls().exterior) {
+            <img [src]="photoUrls().exterior" alt="Photo extérieure" class="photo-preview" />
+          }
+        </div>
+
+        <div class="photo-upload">
+          <label class="photo-label">
+            Photo de la mosquée depuis l'intérieur *
+            <span class="photo-hint">Format paysage, 800x450 px minimum. Aucun visage ne doit apparaître.</span>
+          </label>
+          <input type="file" accept="image/*" (change)="onPhotoSelected('interior', $event)" />
+          @if (uploading() === 'interior') {
+            <mat-spinner diameter="20"></mat-spinner>
+          }
+          @if (photoUrls().interior) {
+            <img [src]="photoUrls().interior" alt="Photo intérieure" class="photo-preview" />
+          }
+        </div>
+
+        <div class="photo-upload">
+          <label class="photo-label">
+            Logo de la mosquée / association
+            <span class="photo-hint">Format carré, 500x500 px maximum. Idéalement en .png transparent.</span>
+          </label>
+          <input type="file" accept="image/*" (change)="onPhotoSelected('logo', $event)" />
+          @if (uploading() === 'logo') {
+            <mat-spinner diameter="20"></mat-spinner>
+          }
+          @if (photoUrls().logo) {
+            <img [src]="photoUrls().logo" alt="Logo" class="photo-preview logo" />
+          }
+        </div>
+
+        <div class="step-actions">
+          <button mat-button matStepperPrevious>Retour</button>
+          <button mat-flat-button color="primary" [disabled]="!canFinish" (click)="finish()">
+            Terminer
+          </button>
+        </div>
+      </div>
+    </mat-step>
+  </mat-stepper>
+</div>

@@ -1,0 +1,64 @@
+<div class="page-container">
+  <div class="page-header">
+    <h2>🤲 Dons & Collectes</h2>
+    <button mat-flat-button color="accent" (click)="openCreate()">
+      <mat-icon>add</mat-icon>
+      Nouvelle collecte
+    </button>
+  </div>
+
+  <mat-card>
+    @if (!loading() && campaigns().length === 0) {
+      <div class="empty-state">Aucune collecte</div>
+    } @else {
+      <table mat-table [dataSource]="campaigns()" class="full-width-table">
+        <ng-container matColumnDef="title">
+          <th mat-header-cell *matHeaderCellDef>Titre</th>
+          <td mat-cell *matCellDef="let c"><strong>{{ c.title }}</strong></td>
+        </ng-container>
+
+        <ng-container matColumnDef="collected">
+          <th mat-header-cell *matHeaderCellDef>Collecté</th>
+          <td mat-cell *matCellDef="let c">{{ c.collected_amount || 0 }}$</td>
+        </ng-container>
+
+        <ng-container matColumnDef="goal">
+          <th mat-header-cell *matHeaderCellDef>Objectif</th>
+          <td mat-cell *matCellDef="let c">{{ c.goal_amount ? c.goal_amount + '$' : '—' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="progress">
+          <th mat-header-cell *matHeaderCellDef>Progression</th>
+          <td mat-cell *matCellDef="let c" class="progress-cell">
+            <mat-progress-bar mode="determinate" [value]="progress(c)"></mat-progress-bar>
+            <small>{{ progress(c) }}%</small>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Statut</th>
+          <td mat-cell *matCellDef="let c">
+            <mat-chip class="type-chip" [class]="c.is_active ? 'type-active' : 'type-inactive'">
+              {{ c.is_active ? 'Active' : 'Inactive' }}
+            </mat-chip>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let c">
+            <button mat-icon-button (click)="toggle(c)" aria-label="Activer/Désactiver">
+              <mat-icon>{{ c.is_active ? 'pause_circle' : 'play_circle' }}</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="remove(c)" aria-label="Supprimer">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    }
+  </mat-card>
+</div>

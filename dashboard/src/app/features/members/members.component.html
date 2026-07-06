@@ -1,0 +1,45 @@
+<div class="page-container">
+  <div class="page-header">
+    <h2>👥 Membres</h2>
+  </div>
+
+  <mat-card>
+    @if (!loading() && members().length === 0) {
+      <div class="empty-state">Aucun membre</div>
+    } @else {
+      <table mat-table [dataSource]="members()" class="full-width-table">
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Nom</th>
+          <td mat-cell *matCellDef="let m"><strong>{{ m.first_name }}</strong></td>
+        </ng-container>
+
+        <ng-container matColumnDef="username">
+          <th mat-header-cell *matHeaderCellDef>Username</th>
+          <td mat-cell *matCellDef="let m">{{ m.username ? '@' + m.username : '—' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="telegram_id">
+          <th mat-header-cell *matHeaderCellDef>Telegram ID</th>
+          <td mat-cell *matCellDef="let m"><code>{{ m.telegram_id }}</code></td>
+        </ng-container>
+
+        <ng-container matColumnDef="joined">
+          <th mat-header-cell *matHeaderCellDef>Inscrit le</th>
+          <td mat-cell *matCellDef="let m">{{ m.joined_at | date: 'yyyy-MM-dd' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="notifications">
+          <th mat-header-cell *matHeaderCellDef>Notifications</th>
+          <td mat-cell *matCellDef="let m">
+            <mat-chip class="type-chip" [class]="activeNotifications(m) > 3 ? 'type-active' : 'type-inactive'">
+              {{ activeNotifications(m) }}/5 notifs
+            </mat-chip>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    }
+  </mat-card>
+</div>

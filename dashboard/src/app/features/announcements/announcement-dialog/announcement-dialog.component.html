@@ -1,0 +1,24 @@
+<h2 mat-dialog-title>Nouvelle annonce</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="form" class="dialog-form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Titre *</mat-label>
+      <input matInput formControlName="title" placeholder="Ex: Changement d'horaire ce vendredi" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Message *</mat-label>
+      <textarea matInput rows="5" formControlName="body" placeholder="Votre message aux membres..."></textarea>
+    </mat-form-field>
+
+    <mat-checkbox formControlName="send_now">
+      Envoyer immédiatement à tous les membres via Telegram
+    </mat-checkbox>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="null">Annuler</button>
+  <button mat-flat-button color="primary" (click)="save()">📢 Envoyer</button>
+</mat-dialog-actions>

@@ -1,0 +1,429 @@
+:host {
+  display: block;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.screen {
+  height: 100%;
+  box-sizing: border-box;
+  padding: 24px 40px;
+  display: grid;
+  grid-template-rows: auto auto auto 1fr auto;
+  gap: 16px;
+  color: #f2ede3;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(58, 141, 105, 0.22), transparent 45%),
+    radial-gradient(circle at 88% 92%, rgba(212, 175, 55, 0.16), transparent 50%),
+    linear-gradient(160deg, #0f1210 0%, #14181a 55%, #10130f 100%);
+}
+
+// ── Header ──────────────────────────────────────────────
+.screen-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mosque-id {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.mosque-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #3a8d69, #2b6b50);
+  box-shadow: 0 6px 20px rgba(58, 141, 105, 0.35);
+
+  mat-icon {
+    color: #f2ede3;
+    font-size: 26px;
+    width: 26px;
+    height: 26px;
+  }
+}
+
+.mosque-name {
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.mosque-location {
+  font-size: 0.85rem;
+  color: rgba(242, 237, 227, 0.55);
+}
+
+.weather-block {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.2rem;
+  font-weight: 500;
+
+  .weather-icon {
+    font-size: 1.6rem;
+  }
+}
+
+// ── Weather alert banner ─────────────────────────────────
+@keyframes alert-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.75; }
+}
+
+.weather-alert-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 20px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(214, 88, 36, 0.35), rgba(214, 48, 36, 0.2));
+  border: 1px solid rgba(255, 152, 96, 0.5);
+  color: #ffcfae;
+  font-size: 1.05rem;
+  font-weight: 500;
+  animation: alert-pulse 2.5s ease-in-out infinite;
+
+  mat-icon {
+    color: #ff9860;
+  }
+}
+
+// ── Clock hero ───────────────────────────────────────────
+.clock-hero {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.clock {
+  font-size: 4.6rem;
+  font-weight: 300;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+.date-line {
+  font-size: 1rem;
+  color: rgba(242, 237, 227, 0.6);
+
+  .sep {
+    margin: 0 8px;
+    opacity: 0.5;
+  }
+}
+
+.countdown-pill {
+  margin-top: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 20px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(58, 141, 105, 0.35), rgba(58, 141, 105, 0.15));
+  border: 1px solid rgba(127, 216, 174, 0.4);
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: #b9ecd3;
+
+  mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+}
+
+// ── Prayer strip ─────────────────────────────────────────
+.prayer-strip {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 14px;
+}
+
+.prayer-card {
+  border-radius: 20px;
+  padding: 14px 8px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  transition: all 0.3s ease;
+
+  mat-icon {
+    color: rgba(242, 237, 227, 0.5);
+  }
+
+  .prayer-name {
+    font-size: 0.95rem;
+    color: rgba(242, 237, 227, 0.7);
+  }
+
+  .prayer-time {
+    font-size: 1.5rem;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .prayer-iqama {
+    font-size: 0.8rem;
+    color: rgba(242, 237, 227, 0.45);
+    font-variant-numeric: tabular-nums;
+  }
+
+  &.sunrise {
+    opacity: 0.75;
+
+    .prayer-time {
+      font-size: 1.2rem;
+    }
+  }
+
+  &.active {
+    background: linear-gradient(155deg, rgba(58, 141, 105, 0.35), rgba(58, 141, 105, 0.1));
+    border-color: rgba(58, 141, 105, 0.5);
+    transform: translateY(-2px);
+
+    mat-icon {
+      color: #7fd8ae;
+    }
+
+    .prayer-name {
+      color: #f2ede3;
+    }
+
+    .prayer-iqama {
+      color: #b9ecd3;
+    }
+  }
+}
+
+// ── Bottom row: QR / ticker / donations ─────────────────
+.bottom-row {
+  display: grid;
+  grid-template-columns: 0.8fr 1.6fr 1fr;
+  gap: 16px;
+  min-height: 0;
+}
+
+.qr-card {
+  border-radius: 20px;
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.qr-image {
+  width: 96px;
+  height: 96px;
+  border-radius: 10px;
+  background: #fff;
+  padding: 6px;
+}
+
+.qr-caption {
+  font-size: 0.78rem;
+  text-align: center;
+  color: rgba(242, 237, 227, 0.55);
+}
+
+.ticker-card {
+  border-radius: 20px;
+  padding: 20px 26px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.ticker-badge {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 0.78rem;
+  padding: 3px 12px;
+  border-radius: 999px;
+  background: rgba(212, 175, 55, 0.18);
+  color: #e8c766;
+  margin-bottom: 10px;
+}
+
+.ticker-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.ticker-body {
+  font-size: 1.15rem;
+  line-height: 1.5;
+  font-weight: 300;
+}
+
+.ticker-source {
+  margin-top: 10px;
+  font-size: 0.85rem;
+  color: rgba(242, 237, 227, 0.55);
+}
+
+.ticker-empty {
+  font-size: 1.05rem;
+  color: rgba(242, 237, 227, 0.5);
+}
+
+.ticker-dots {
+  position: absolute;
+  bottom: 14px;
+  left: 26px;
+  display: flex;
+  gap: 6px;
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(242, 237, 227, 0.2);
+
+    &.active {
+      background: #e8c766;
+    }
+  }
+}
+
+.donations-card {
+  border-radius: 20px;
+  padding: 16px 18px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 0;
+}
+
+.donations-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.donations-empty {
+  font-size: 0.85rem;
+  color: rgba(242, 237, 227, 0.5);
+}
+
+.donation-item {
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+
+  &:first-of-type {
+    border-top: none;
+    padding-top: 0;
+  }
+}
+
+.donation-name {
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.donation-amounts {
+  font-size: 0.78rem;
+  color: rgba(242, 237, 227, 0.55);
+  margin-top: 4px;
+}
+
+.donation-methods {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.method {
+  font-size: 0.72rem;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-weight: 500;
+
+  &.orange {
+    background: rgba(255, 102, 0, 0.18);
+    color: #ff9c5c;
+  }
+
+  &.mtn {
+    background: rgba(255, 204, 0, 0.18);
+    color: #f5d76e;
+  }
+}
+
+// ── Footer ────────────────────────────────────────────────
+.screen-footer {
+  border-radius: 14px;
+  padding: 8px 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 0.82rem;
+}
+
+.footer-brand {
+  font-weight: 600;
+  color: #e8c766;
+  flex-shrink: 0;
+}
+
+.footer-sep {
+  opacity: 0.4;
+  flex-shrink: 0;
+}
+
+.footer-label {
+  color: rgba(242, 237, 227, 0.6);
+  flex-shrink: 0;
+}
+
+.footer-item {
+  color: rgba(242, 237, 227, 0.7);
+
+  &::after {
+    content: '•';
+    margin-left: 20px;
+    opacity: 0.4;
+  }
+
+  &:last-child::after {
+    content: '';
+    margin: 0;
+  }
+}

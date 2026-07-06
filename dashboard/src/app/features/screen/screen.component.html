@@ -1,0 +1,131 @@
+<div class="screen">
+  <header class="screen-header">
+    <div class="mosque-id">
+      <div class="mosque-icon"><mat-icon>mosque</mat-icon></div>
+      <div>
+        <div class="mosque-name">{{ mosque()?.name || 'MosquéeBot' }}</div>
+        <div class="mosque-location">{{ mosque()?.city }}, {{ mosque()?.country }}</div>
+      </div>
+    </div>
+    @if (prayerTimes()?.weather; as w) {
+      <div class="weather-block">
+        <span class="weather-icon">{{ w.icon }}</span>
+        <span class="weather-temp">{{ w.temperature }}°C</span>
+      </div>
+    }
+  </header>
+
+  @if (prayerTimes()?.weather_alert; as alert) {
+    <div class="weather-alert-banner">
+      <mat-icon>warning</mat-icon>
+      {{ alert.message }} vers {{ alert.expected_time }} — prenez vos précautions
+    </div>
+  }
+
+  <section class="clock-hero">
+    <div class="clock">{{ clockText() }}</div>
+    <div class="date-line">
+      <span>{{ prayerTimes()?.gregorian_date }}</span>
+      @if (prayerTimes()?.hijri_date) {
+        <span class="sep">•</span>
+        <span>{{ prayerTimes()?.hijri_date }}</span>
+      }
+    </div>
+    @if (prayerTimes()) {
+      <div class="countdown-pill">
+        <mat-icon>schedule</mat-icon>
+        {{ nextPrayerLabel() }} dans {{ countdownShort() }}
+      </div>
+    }
+  </section>
+
+  <section class="prayer-strip">
+    @if (prayerTimes()?.sunrise; as sunrise) {
+      <div class="prayer-card sunrise">
+        <mat-icon>wb_twilight</mat-icon>
+        <div class="prayer-name">Chourouk</div>
+        <div class="prayer-time">{{ sunrise }}</div>
+      </div>
+    }
+    @for (row of prayerRows(); track row.name) {
+      <div class="prayer-card" [class.active]="row.isNext">
+        <mat-icon>{{ row.icon }}</mat-icon>
+        <div class="prayer-name">{{ row.label }}</div>
+        <div class="prayer-time">{{ row.time }}</div>
+        <div class="prayer-iqama">{{ row.iqamaLabel }}</div>
+      </div>
+    }
+  </section>
+
+  <section class="bottom-row">
+    <div class="qr-card">
+      @if (qrDataUrl(); as url) {
+        <img [src]="url" alt="QR code du bot Telegram" class="qr-image" />
+      }
+      <div class="qr-caption">Notifications · Cours · Dons</div>
+    </div>
+
+    <div class="ticker-card">
+      @if (currentTicker(); as card) {
+        <div class="ticker-badge">{{ card.badge }}</div>
+        @if (card.title) {
+          <div class="ticker-title">{{ card.title }}</div>
+        }
+        <div class="ticker-body">{{ card.body }}</div>
+        @if (card.source) {
+          <div class="ticker-source">— {{ card.source }}</div>
+        }
+      } @else {
+        <div class="ticker-empty">Aucune actualité pour le moment</div>
+      }
+      @if (tickerCards().length > 1) {
+        <div class="ticker-dots">
+          @for (c of tickerCards(); track $index; let i = $index) {
+            <span class="dot" [class.active]="i === tickerIndex()"></span>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="donations-card">
+      <div class="donations-title">
+        <mat-icon>volunteer_activism</mat-icon>
+        Faire un don
+      </div>
+      @if (activeDonations().length === 0) {
+        <div class="donations-empty">Aucune collecte active</div>
+      }
+      @for (d of activeDonations(); track d.id) {
+        <div class="donation-item">
+          <div class="donation-name">{{ d.title }}</div>
+          @if (d.goal_amount) {
+            <mat-progress-bar
+              mode="determinate"
+              [value]="(d.collected_amount / d.goal_amount) * 100"
+            ></mat-progress-bar>
+            <div class="donation-amounts">{{ d.collected_amount }}$ / {{ d.goal_amount }}$</div>
+          }
+          <div class="donation-methods">
+            @if (d.orange_money_number) {
+              <span class="method orange">Orange Money · {{ d.orange_money_number }}</span>
+            }
+            @if (d.mtn_momo_number) {
+              <span class="method mtn">MTN Momo · {{ d.mtn_momo_number }}</span>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+
+  <footer class="screen-footer">
+    <span class="footer-brand">MosquéeBot</span>
+    @if (upcomingActivities().length > 0) {
+      <span class="footer-sep">•</span>
+      <span class="footer-label">Prochainement :</span>
+      @for (a of upcomingActivities(); track a.id) {
+        <span class="footer-item">{{ a.title }} — {{ a.date }} {{ a.time }}</span>
+      }
+    }
+  </footer>
+</div>

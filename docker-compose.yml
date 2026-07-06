@@ -1,0 +1,90 @@
+version: "3.9"
+
+services:
+   # -------------------------------------------------
+  # PostgreSQL
+  # -------------------------------------------------
+  postgres:
+    image: postgres:15
+    container_name: NoorConnect_bot-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: bot
+      POSTGRES_USER: kounet
+      POSTGRES_PASSWORD: "1234"
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - bot-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kounet -d bot"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # -------------------------------------------------
+  # pgAdmin
+  # -------------------------------------------------
+  pgadmin4:
+    image: dpage/pgadmin4
+    container_name: NoorConnect_pgadmin4-bot
+    restart: unless-stopped
+    ports:
+      - "8088:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "kunet@gmail.com"
+      PGADMIN_DEFAULT_PASSWORD: "kounet"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - bot-net
+
+  bot:
+    build: ./bot
+    container_name: mosqueebot_bot
+    restart: unless-stopped
+    env_file: .env
+    depends_on:
+      - backend
+    networks:
+      - mosqueebot
+      - bot-net
+
+  backend:
+    build: ./backend
+    container_name: mosqueebot_api
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "8000:8000"
+    volumes:
+      - backend_uploads:/app/uploads
+    networks:
+      - mosqueebot
+      - bot-net
+
+  dashboard:
+    build: ./dashboard
+    container_name: mosqueebot_dashboard
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - backend
+    networks:
+      - mosqueebot
+
+networks:
+  mosqueebot:
+    driver: bridge
+  bot-net:
+    driver: bridge
+
+volumes:
+  pgdata:
+  backend_uploads:

@@ -1,0 +1,53 @@
+<h2 mat-dialog-title>Nouvelle collecte de dons</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="form" class="dialog-form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Titre *</mat-label>
+      <input matInput formControlName="title" placeholder="Ex: Rénovation de la salle de prière" />
+    </mat-form-field>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Type</mat-label>
+        <mat-select formControlName="type">
+          @for (t of types; track t.value) {
+            <mat-option [value]="t.value">{{ t.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Objectif ($)</mat-label>
+        <input matInput type="number" formControlName="goal_amount" placeholder="5000" />
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Description</mat-label>
+      <textarea matInput rows="2" formControlName="description" placeholder="Détails de la collecte..."></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Lien de paiement (Stripe, PayPal, etc.)</mat-label>
+      <input matInput type="url" formControlName="payment_url" placeholder="https://buy.stripe.com/..." />
+    </mat-form-field>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Numéro Orange Money</mat-label>
+        <input matInput formControlName="orange_money_number" placeholder="Ex: 07 00 00 00 00" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Numéro MTN Mobile Money</mat-label>
+        <input matInput formControlName="mtn_momo_number" placeholder="Ex: 05 00 00 00 00" />
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="null">Annuler</button>
+  <button mat-flat-button color="primary" (click)="save()">💾 Créer la collecte</button>
+</mat-dialog-actions>

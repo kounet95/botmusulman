@@ -1,0 +1,7 @@
+python-telegram-bot==20.7
+httpx==0.25.2
+apscheduler==3.10.4
+supabase==2.3.4
+python-dotenv==1.0.0
+pytz==2024.1
+asyncpg==0.29.0

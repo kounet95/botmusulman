@@ -1,0 +1,82 @@
+<h2 mat-dialog-title>{{ isEdit ? "Modifier l'activité" : 'Nouvelle activité' }}</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="form" class="dialog-form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Titre *</mat-label>
+      <input matInput formControlName="title" placeholder="Ex: Cours de Tajwid — Niveau débutant" />
+    </mat-form-field>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Type *</mat-label>
+        <mat-select formControlName="type">
+          @for (t of types; track t.value) {
+            <mat-option [value]="t.value">{{ t.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Intervenant / Cheikh</mat-label>
+        <input matInput formControlName="speaker" placeholder="Cheikh Moussa Konaté" />
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Date *</mat-label>
+        <input matInput type="date" formControlName="date" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Heure *</mat-label>
+        <input matInput type="time" formControlName="time" />
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Capacité (places) *</mat-label>
+        <input matInput type="number" formControlName="capacity" placeholder="50" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Lieu</mat-label>
+        <input matInput formControlName="location" placeholder="Salle principale" />
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Description</mat-label>
+      <textarea
+        matInput
+        rows="3"
+        formControlName="description"
+        placeholder="Description de l'activité..."
+      ></textarea>
+    </mat-form-field>
+
+    <div class="form-row">
+      <div class="paid-block">
+        <mat-checkbox formControlName="is_paid">Activité payante</mat-checkbox>
+        @if (form.controls.is_paid.value) {
+          <mat-form-field appearance="outline" class="price-field">
+            <mat-label>Prix ($)</mat-label>
+            <input matInput type="number" step="0.01" formControlName="price" />
+          </mat-form-field>
+        }
+      </div>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Lien livestream</mat-label>
+        <input matInput type="url" formControlName="livestream_url" placeholder="https://zoom.us/..." />
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="null">Annuler</button>
+  <button mat-flat-button color="primary" (click)="save()">💾 Enregistrer</button>
+</mat-dialog-actions>

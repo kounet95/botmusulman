@@ -1,0 +1,58 @@
+// Thème Material personnalisé — identité "mosquée" (vert / or)
+// https://material.angular.dev/guide/theming
+@use '@angular/material' as mat;
+
+html {
+  @include mat.theme((
+    color: (
+      theme-type: light,
+      primary: mat.$green-palette,
+      tertiary: mat.$orange-palette,
+    ),
+    typography: Roboto,
+    density: 0,
+  ));
+}
+
+/* You can add global styles to this file, and also import other style files */
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.page-container { padding: 24px; max-width: 1400px; margin: 0 auto; }
+.page-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 20px; flex-wrap: wrap; gap: 12px;
+}
+.page-header h2 { margin: 0; font-size: 1.4rem; font-weight: 500; }
+.stat-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px; margin-bottom: 24px;
+}
+.full-width-table { width: 100%; }
+.mat-column-actions { text-align: right; white-space: nowrap; }
+.empty-state { text-align: center; padding: 40px 16px; color: rgba(0, 0, 0, 0.5); }
+.rtl-field textarea { direction: rtl; text-align: right; }
+
+.truncate-cell {
+  max-width: 320px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.type-chip {
+  text-transform: capitalize;
+  &.type-cours { background: #e8f5e9; }
+  &.type-conference { background: #e3f2fd; }
+  &.type-halaqa { background: #f3e5f5; }
+  &.type-evenement, &.type-gold { background: #fff8e1; }
+  &.type-autre { background: #eceff1; }
+  &.type-hadith { background: #e8f5e9; }
+  &.type-verset { background: #e3f2fd; }
+  &.type-rappel { background: #fff8e1; }
+  &.type-dua { background: #f3e5f5; }
+  &.type-free { background: #e8f5e9; }
+  &.type-active { background: #e8f5e9; }
+  &.type-inactive { background: #eceff1; }
+  &.type-sent { background: #e8f5e9; }
+}

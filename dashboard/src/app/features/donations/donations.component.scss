@@ -1,0 +1,13 @@
+.page-header h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.progress-cell {
+  min-width: 120px;
+
+  mat-progress-bar {
+    margin-bottom: 4px;
+  }
+}
