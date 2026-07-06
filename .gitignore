@@ -1,0 +1,27 @@
+# Secrets
+.env
+.env.local
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Node / Angular
+node_modules/
+dist/
+.angular/
+
+# Uploads (contenu utilisateur, pas du code)
+backend/uploads/
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
