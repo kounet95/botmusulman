@@ -74,6 +74,7 @@ class MosqueProfileUpdate(BaseModel):
     name: Optional[str] = None
     address: Optional[str] = None
     city: Optional[str] = None
+    neighborhood: Optional[str] = None  # quartier
     postal_code: Optional[str] = None
     country: Optional[str] = None
     association_name: Optional[str] = None

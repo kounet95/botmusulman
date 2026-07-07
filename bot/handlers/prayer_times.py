@@ -6,6 +6,12 @@ from services.mosque_context import resolve_user_mosque
 NO_MOSQUE_TEXT = "❌ Vous n'êtes rattaché(e) à aucune mosquée. Tapez /start pour en choisir une."
 
 
+def _location_label(mosque: dict) -> str:
+    if mosque.get("neighborhood"):
+        return f"{mosque['city']}, {mosque['neighborhood']}"
+    return mosque["city"]
+
+
 async def cmd_prieres(update: Update, context: ContextTypes.DEFAULT_TYPE):
     mosque = await resolve_user_mosque(update.effective_user.id)
     if not mosque:
@@ -18,7 +24,7 @@ async def cmd_prieres(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not timings:
         text = "❌ Impossible de récupérer les horaires. Réessayez plus tard."
     else:
-        text = format_prayer_times(timings, mosque["city"])
+        text = format_prayer_times(timings, _location_label(mosque))
 
     keyboard = [[InlineKeyboardButton("🔙 Menu", callback_data="menu_main")]]
     await update.message.reply_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(keyboard))
@@ -36,7 +42,7 @@ async def cb_prayer(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not timings:
         text = "❌ Impossible de récupérer les horaires. Réessayez plus tard."
     else:
-        text = format_prayer_times(timings, mosque["city"])
+        text = format_prayer_times(timings, _location_label(mosque))
     keyboard = [[InlineKeyboardButton("🔙 Menu", callback_data="menu_main")]]
     await query.edit_message_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(keyboard))
 

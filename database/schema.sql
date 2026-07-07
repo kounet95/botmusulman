@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS mosques (
   -- Profil "Mawaqit" complété lors de l'onboarding post-inscription
   installation_type    TEXT DEFAULT 'mosque', -- mosque | ecole | salle_priere | domicile | magasin
   address              TEXT,
+  neighborhood         TEXT, -- quartier (localisation prioritaire en contexte guinéen)
   postal_code          TEXT,
   association_name     TEXT,
   phone                TEXT,

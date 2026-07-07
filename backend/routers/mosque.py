@@ -14,7 +14,7 @@ PHOTO_KINDS = {
     "interior": "interior_photo_url",
     "logo": "logo_url",
 }
-REQUIRED_FIELDS = ["installation_type", "name", "address", "city", "postal_code", "country"]
+REQUIRED_FIELDS = ["installation_type", "name", "address", "city", "neighborhood", "country"]
 
 
 async def _maybe_complete_onboarding(conn, mosque_id: int):

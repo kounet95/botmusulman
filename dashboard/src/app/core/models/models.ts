@@ -234,6 +234,7 @@ export interface MosqueProfile {
   slug: string;
   installation_type: InstallationType | null;
   address: string | null;
+  neighborhood: string | null;
   postal_code: string | null;
   association_name: string | null;
   phone: string | null;
@@ -257,7 +258,8 @@ export interface MosqueProfilePayload {
   name?: string;
   address?: string;
   city?: string;
-  postal_code?: string;
+  neighborhood?: string;
+  postal_code?: string | null;
   country?: string;
   association_name?: string | null;
   phone?: string | null;

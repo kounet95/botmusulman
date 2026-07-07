@@ -57,14 +57,19 @@
         <div class="form-row">
           <mat-form-field appearance="outline">
             <mat-label>Ville *</mat-label>
-            <input matInput formControlName="city" />
+            <input matInput formControlName="city" placeholder="Ex. Conakry" />
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Code postal *</mat-label>
-            <input matInput formControlName="postal_code" />
+            <mat-label>Quartier *</mat-label>
+            <input matInput formControlName="neighborhood" placeholder="Ex. Kaporo, Ratoma, Almamya" />
           </mat-form-field>
         </div>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Code postal</mat-label>
+          <input matInput formControlName="postal_code" />
+        </mat-form-field>
 
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Pays *</mat-label>

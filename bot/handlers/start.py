@@ -21,9 +21,20 @@ def _main_menu_markup() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(keyboard)
 
 
+def _mosque_location_label(mosque: dict) -> str:
+    if mosque.get("neighborhood"):
+        return f"{mosque['city']}, {mosque['neighborhood']}"
+    return mosque["city"]
+
+
 def _mosque_picker_markup(mosques: list[dict]) -> InlineKeyboardMarkup:
     buttons = [
-        [InlineKeyboardButton(f"🕌 {m['name']} — {m['city']}", callback_data=f"pick_mosque_{m['id']}")]
+        [
+            InlineKeyboardButton(
+                f"🕌 {m['name']} — {_mosque_location_label(m)}",
+                callback_data=f"pick_mosque_{m['id']}",
+            )
+        ]
         for m in mosques
     ]
     return InlineKeyboardMarkup(buttons)
