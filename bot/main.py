@@ -21,6 +21,9 @@ logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     level=logging.INFO,
 )
+# httpx logue l'URL complète de chaque requête (https://api.telegram.org/bot<TOKEN>/...)
+# à INFO — on la baisse à WARNING pour éviter de faire fuiter le token dans les logs.
+logging.getLogger("httpx").setLevel(logging.WARNING)
 logger = logging.getLogger(__name__)
 
 
