@@ -33,6 +33,40 @@ async def list_mosques() -> list[dict]:
         return [dict(row) for row in rows]
 
 
+async def list_distinct_cities() -> list[str]:
+    pool = await get_db()
+    async with pool.acquire() as conn:
+        rows = await conn.fetch(
+            "SELECT DISTINCT city FROM mosques WHERE city IS NOT NULL AND city != '' ORDER BY city"
+        )
+        return [row["city"] for row in rows]
+
+
+async def list_distinct_neighborhoods(city: str) -> list[str]:
+    pool = await get_db()
+    async with pool.acquire() as conn:
+        rows = await conn.fetch(
+            """SELECT DISTINCT neighborhood FROM mosques
+               WHERE city = $1 AND neighborhood IS NOT NULL AND neighborhood != ''
+               ORDER BY neighborhood""",
+            city,
+        )
+        return [row["neighborhood"] for row in rows]
+
+
+async def list_mosques_by_location(city: str, neighborhood: str | None = None) -> list[dict]:
+    pool = await get_db()
+    async with pool.acquire() as conn:
+        if neighborhood:
+            rows = await conn.fetch(
+                "SELECT * FROM mosques WHERE city = $1 AND neighborhood = $2 ORDER BY name",
+                city, neighborhood,
+            )
+        else:
+            rows = await conn.fetch("SELECT * FROM mosques WHERE city = $1 ORDER BY name", city)
+        return [dict(row) for row in rows]
+
+
 # ── Members ──────────────────────────────────────────────────────────────────
 
 async def upsert_member(telegram_id: int, first_name: str, username: str | None, mosque_id: int):

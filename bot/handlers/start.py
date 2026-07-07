@@ -17,6 +17,9 @@ def _main_menu_markup() -> InlineKeyboardMarkup:
             InlineKeyboardButton("🔔 Mes notifications", callback_data="menu_notifications"),
             InlineKeyboardButton("ℹ️ À propos", callback_data="menu_about"),
         ],
+        [
+            InlineKeyboardButton("🔍 Trouver un lieu près de moi", callback_data="menu_discover"),
+        ],
     ]
     return InlineKeyboardMarkup(keyboard)
 

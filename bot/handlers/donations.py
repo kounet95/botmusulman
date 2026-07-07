@@ -34,8 +34,9 @@ async def cmd_dons(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(text, parse_mode="Markdown", reply_markup=markup, disable_web_page_preview=True)
 
 
-def _build_donations_view(campaigns: list[dict]):
-    lines = ["🤲 *Dons & Sadaqa*", "━━━━━━━━━━━━━━━━━━"]
+def _build_donations_view(campaigns: list[dict], mosque_name: str | None = None, back_callback: str = "menu_main"):
+    title = f"🤲 *Dons & Sadaqa — {mosque_name}*" if mosque_name else "🤲 *Dons & Sadaqa*"
+    lines = [title, "━━━━━━━━━━━━━━━━━━"]
     buttons = []
     if not campaigns:
         lines.append("\nAucune collecte en cours pour le moment.")
@@ -50,6 +51,10 @@ def _build_donations_view(campaigns: list[dict]):
                 f"   {bar}\n"
                 f"   Collecté : *{collected:,.0f}$* / Objectif : {goal:,.0f}$"
             )
+            if camp.get("orange_money_number"):
+                lines.append(f"   🟠 Orange Money : {camp['orange_money_number']}")
+            if camp.get("mtn_momo_number"):
+                lines.append(f"   🟡 MTN Momo : {camp['mtn_momo_number']}")
             if camp.get("payment_url"):
                 buttons.append([InlineKeyboardButton(
                     f"💳 Donner — {camp['title'][:30]}",
@@ -57,5 +62,5 @@ def _build_donations_view(campaigns: list[dict]):
                 )])
     lines.append("\n━━━━━━━━━━━━━━━━━━")
     lines.append("_Que Allah accepte vos dons et vous en récompense_ 🤲")
-    buttons.append([InlineKeyboardButton("🔙 Menu", callback_data="menu_main")])
+    buttons.append([InlineKeyboardButton("🔙 Retour", callback_data=back_callback)])
     return "\n".join(lines), InlineKeyboardMarkup(buttons)
