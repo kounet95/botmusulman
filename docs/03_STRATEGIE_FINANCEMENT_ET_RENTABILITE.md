@@ -67,6 +67,20 @@ Pistes à explorer : Orange Fab (accélérateur du groupe Orange, présent dans 
 **Avantage :** capital plus important, accès à un réseau, décisions parfois plus rapides qu'un bailleur institutionnel.
 **Limite, à dire clairement :** un investisseur voudra un **modèle de revenus qui fonctionne déjà un minimum** (traction, premiers paiements réels traités par la plateforme) avant d'investir. Aujourd'hui, avec 1 mosquée et aucune transaction réellement traitée par le système, ce projet **n'est pas encore prêt pour cette voie** — la section 3 explique ce qu'il faut construire pour l'être.
 
+### C. Mécènes particuliers — parrainage d'écrans par mosquée
+
+**Logique :** en parallèle des deux pistes ci-dessus, démarcher directement des particuliers fortunés ou des bailleurs de fonds habitués à financer des projets caritatifs, avec un **ask concret et unitaire** plutôt qu'une demande de financement globale : le parrainage de l'écran d'affichage (`/screen`) d'une mosquée précise.
+
+**Pourquoi ça marche mieux qu'un ask global pour ce besoin précis :**
+- **Concret et chiffrable** — "financer l'écran d'une mosquée" est un montant fixe et compréhensible immédiatement, contrairement à "investir dans une plateforme". Un particulier sait exactement ce que son argent finance.
+- **Aligné sur la sadaqa jariya** — une charité continue et visible, dans la même logique qu'un ventilateur, un tapis ou un puits offert à une mosquée : un cadre culturellement familier pour ce type de donateur.
+- **La reconnaissance existe déjà techniquement** — l'encart donateur mis en avant sur `/screen` (déployé pour Phoenix International Club) peut devenir la contrepartie standard : chaque mécène voit son nom/logo affiché sur l'écran de la mosquée qu'il a équipée.
+- **Se démultiplie facilement** — chaque parrainage est une unité indépendante ; on peut démarcher plusieurs mécènes en parallèle pour plusieurs mosquées différentes, sans dépendre d'un chèque unique important.
+
+**Structuration recommandée du montant demandé par écran :** regrouper dans un seul prix rond le matériel (téléviseur + boîtier type Raspberry Pi + support de fixation), l'installation, **et 12 mois d'hébergement/maintenance déjà inclus** — pour que chaque parrainage soit autonome un an sans dépendre d'un autre financement pour rester actif.
+
+**Limite à garder en tête :** ce type de financement couvre le matériel (CAPEX) et éventuellement la première année d'hébergement, mais pas le développement continu de la plateforme — à combiner avec la subvention Phoenix Club (ou une subvention 2, section 2.A) qui, elle, finance le logiciel et son évolution.
+
 **Recommandation :** utiliser la subvention (Phoenix Club + éventuellement une deuxième) pour financer la Phase 1 *et* la construction du module de paiement intégré (section 3). C'est cette traction (mosquées actives + volume de dons réellement traité) qui rendra le dossier investisseur crédible ensuite — pas avant.
 
 ---
@@ -149,10 +163,12 @@ Le financement dilutif (investisseurs) arrive **après** qu'un revenu réel exis
 ## 8. Prochaines étapes concrètes
 
 1. Finaliser et chiffrer le budget de la Phase 1 avec le Phoenix Club (dossier `02`, section 8 — actuellement "à chiffrer").
-2. Identifier 1-2 pistes de subvention en parallèle (section 2.A) pour préparer le financement de l'intégration paiement, sans attendre la fin de la Phase 1.
-3. Prendre contact avec un imam/ouléma de référence pour valider le principe des frais de service (section 4) — à faire *avant* d'en parler à un bailleur, pas après.
-4. Se renseigner auprès d'un conseil juridique local sur le statut réglementaire d'un agrégateur de paiement mobile money en Guinée (BCRG) avant de committer un calendrier d'intégration.
-5. Une fois 1-2 mosquées actives avec des volumes réels : documenter les chiffres (fidèles inscrits, dons affichés, taux de participation aux activités) pour nourrir un futur dossier investisseur.
+2. Chiffrer un **coût unitaire "écran parrainé"** (matériel + installation + 12 mois d'hébergement, section 2.C) pour avoir un montant rond et prêt à présenter à des mécènes particuliers, en parallèle et sans attendre la Phase 1.
+3. Démarcher des particuliers/bailleurs individuels sur cette base unitaire, mosquée par mosquée — indépendamment du calendrier du dossier Phoenix Club.
+4. Identifier 1-2 pistes de subvention institutionnelle en parallèle (section 2.A) pour préparer le financement de l'intégration paiement, sans attendre la fin de la Phase 1.
+5. Prendre contact avec un imam/ouléma de référence pour valider le principe des frais de service (section 4) — à faire *avant* d'en parler à un bailleur, pas après.
+6. Se renseigner auprès d'un conseil juridique local sur le statut réglementaire d'un agrégateur de paiement mobile money en Guinée (BCRG) avant de committer un calendrier d'intégration.
+7. Une fois 1-2 mosquées actives avec des volumes réels : documenter les chiffres (fidèles inscrits, dons affichés, taux de participation aux activités) pour nourrir un futur dossier investisseur.
 
 ---
 
