@@ -14,6 +14,9 @@ def _main_menu_markup() -> InlineKeyboardMarkup:
             InlineKeyboardButton("🤲 Dons", callback_data="menu_donations"),
         ],
         [
+            InlineKeyboardButton("📖 Question coranique", callback_data="menu_quran"),
+        ],
+        [
             InlineKeyboardButton("🔔 Mes notifications", callback_data="menu_notifications"),
             InlineKeyboardButton("ℹ️ À propos", callback_data="menu_about"),
         ],

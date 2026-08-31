@@ -4,6 +4,8 @@ from telegram.ext import (
     Application,
     CommandHandler,
     CallbackQueryHandler,
+    MessageHandler,
+    filters,
     ContextTypes,
 )
 from config import TELEGRAM_BOT_TOKEN
@@ -20,7 +22,11 @@ from handlers.discover import (
     cb_discover_back_cities, cb_discover_back_hoods, cb_discover_view,
     cb_discover_prayer, cb_discover_donate, cb_discover_setmine,
 )
+from handlers.quran import (
+    cmd_coran, cb_quran_start, handle_text_question, handle_voice_question,
+)
 from services.scheduler import init_scheduler
+from services.quran_api import preload as preload_quran
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -51,6 +57,7 @@ def main():
     app.add_handler(CommandHandler("activites", cmd_activites))
     app.add_handler(CommandHandler("dons", cmd_dons))
     app.add_handler(CommandHandler("trouver", cmd_trouver))
+    app.add_handler(CommandHandler("coran", cmd_coran))
 
     # Callback — sélection de mosquée
     app.add_handler(CallbackQueryHandler(cb_pick_mosque, pattern=r"^pick_mosque_\d+$"))
@@ -64,6 +71,7 @@ def main():
     app.add_handler(CallbackQueryHandler(cb_donations, pattern="^menu_donations$"))
     app.add_handler(CallbackQueryHandler(cb_notifications, pattern="^menu_notifications$"))
     app.add_handler(CallbackQueryHandler(cb_about, pattern="^menu_about$"))
+    app.add_handler(CallbackQueryHandler(cb_quran_start, pattern="^menu_quran$"))
 
     # Callback — activities
     app.add_handler(CallbackQueryHandler(cb_activity_detail, pattern=r"^act_detail_\d+$"))
@@ -85,8 +93,16 @@ def main():
     app.add_handler(CallbackQueryHandler(cb_discover_donate, pattern=r"^discover_donate_\d+$"))
     app.add_handler(CallbackQueryHandler(cb_discover_setmine, pattern=r"^discover_setmine_\d+$"))
 
+    # Question coranique — note vocale (toujours active) ou texte (après /coran ou le bouton menu)
+    app.add_handler(MessageHandler(filters.VOICE, handle_voice_question))
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_text_question))
+
     # Scheduler
     init_scheduler(app)
+
+    # Précharge l'index des versets coraniques (~5 Mo) pour éviter la latence
+    # au premier message des utilisateurs.
+    preload_quran()
 
     logger.info("Bot démarré")
     app.run_polling(allowed_updates=Update.ALL_TYPES)
