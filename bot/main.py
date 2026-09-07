@@ -27,6 +27,7 @@ from handlers.quran import (
 )
 from services.scheduler import init_scheduler
 from services.quran_api import preload as preload_quran
+from services.quran_tts import preload as preload_tts
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -103,6 +104,12 @@ def main():
     # Précharge l'index des versets coraniques (~5 Mo) pour éviter la latence
     # au premier message des utilisateurs.
     preload_quran()
+
+    # Précharge le modèle Meta MMS-TTS (~280 Mo, téléchargé depuis HuggingFace
+    # au premier démarrage) pour la réponse vocale en pular. Échoue en silence
+    # si indisponible — la fonctionnalité repasse alors en texte seul.
+    logger.info("Chargement du modèle TTS pular (Meta MMS)...")
+    preload_tts()
 
     logger.info("Bot démarré")
     app.run_polling(allowed_updates=Update.ALL_TYPES)

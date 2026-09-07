@@ -5,3 +5,9 @@ supabase==2.3.4
 python-dotenv==1.0.0
 pytz==2024.1
 asyncpg==0.29.0
+
+# Synthèse vocale en pular (Meta MMS-TTS) — question coranique en note vocale
+torch
+transformers
+scipy
+numpy

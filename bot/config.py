@@ -11,3 +11,7 @@ API_BASE_URL = os.getenv("API_BASE_URL", "http://backend:8000")
 
 # OpenAI (transcription vocale Whisper — question coranique en poular)
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
+
+# Meta MMS-TTS (synthèse vocale en pular — réponse coranique en note vocale)
+HF_TOKEN = os.getenv("HF_TOKEN", "")
+TTS_MODEL_ID = os.getenv("TTS_MODEL_ID", "")

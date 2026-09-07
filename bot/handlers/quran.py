@@ -1,8 +1,11 @@
+import asyncio
+
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ContextTypes
 
 from services.quran_api import rechercher_versets, match_surah_by_name
 from services.voice_transcription import transcribe_voice
+from services import quran_tts
 
 _BACK_MARKUP = InlineKeyboardMarkup([[InlineKeyboardButton("🔙 Menu", callback_data="menu_main")]])
 
@@ -69,18 +72,30 @@ def _format_results(results: list[dict], keyword: str) -> str:
     return "\n".join(lines)
 
 
-async def _answer_query(reply, query_text: str):
+async def _envoyer_audio(message, texte: str):
+    """Synthèse vocale en pular (Meta MMS-TTS, auto-hébergé) de la réponse.
+    Silencieux si le modèle est indisponible — la réponse texte suffit alors."""
+    if not quran_tts.disponible():
+        return
+    audio = await asyncio.to_thread(quran_tts.synthetiser, texte)
+    if audio:
+        await message.reply_audio(audio, filename="reponse.wav", title="Réponse coranique (pular)")
+
+
+async def _answer_query(message, query_text: str):
     query_text = query_text.strip()
     if not query_text:
-        await reply("❌ Je n'ai pas compris la question. Réessayez.", parse_mode="Markdown", reply_markup=_BACK_MARKUP)
+        await message.reply_text("❌ Je n'ai pas compris la question. Réessayez.", parse_mode="Markdown", reply_markup=_BACK_MARKUP)
         return
 
     results = rechercher_versets(query_text, n=5)
     if len(results) == 1:
-        await reply(_format_ayah(results[0]), parse_mode="Markdown", reply_markup=_BACK_MARKUP)
+        v = results[0]
+        await message.reply_text(_format_ayah(v), parse_mode="Markdown", reply_markup=_BACK_MARKUP)
+        await _envoyer_audio(message, v["traduction"])
         return
     if results:
-        await reply(_format_results(results, query_text), parse_mode="Markdown", reply_markup=_BACK_MARKUP)
+        await message.reply_text(_format_results(results, query_text), parse_mode="Markdown", reply_markup=_BACK_MARKUP)
         return
 
     surah = match_surah_by_name(query_text)
@@ -89,16 +104,16 @@ async def _answer_query(reply, query_text: str):
             f"📖 *Sourate {surah['englishName']} ({surah['number']})*\n\n"
             f"Précisez un verset, ex : _{surah['number']}:1_"
         )
-        await reply(text, parse_mode="Markdown", reply_markup=_BACK_MARKUP)
+        await message.reply_text(text, parse_mode="Markdown", reply_markup=_BACK_MARKUP)
         return
 
-    await reply(NOT_FOUND_TEXT, parse_mode="Markdown", reply_markup=_BACK_MARKUP)
+    await message.reply_text(NOT_FOUND_TEXT, parse_mode="Markdown", reply_markup=_BACK_MARKUP)
 
 
 async def handle_text_question(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not context.user_data.get("awaiting_quran_query"):
         return
-    await _answer_query(update.message.reply_text, update.message.text)
+    await _answer_query(update.message, update.message.text)
 
 
 async def handle_voice_question(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -120,4 +135,4 @@ async def handle_voice_question(update: Update, context: ContextTypes.DEFAULT_TY
 
     context.user_data["awaiting_quran_query"] = True
     await processing.edit_text(f"🗣️ Compris : « {transcript} »")
-    await _answer_query(update.message.reply_text, transcript)
+    await _answer_query(update.message, transcript)
