@@ -71,6 +71,11 @@ export const routes: Routes = [
             (m) => m.AnnouncementsComponent
           ),
       },
+      {
+        path: 'chat',
+        title: 'Chat Coran',
+        loadComponent: () => import('./features/chat/chat.component').then((m) => m.ChatComponent),
+      },
     ],
   },
   { path: '**', redirectTo: 'dashboard' },

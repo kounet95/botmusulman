@@ -1,0 +1,32 @@
+<div class="chat-page">
+  <mat-card class="chat-card">
+    <mat-card-header>
+      <mat-card-title>💬 Chat Coran en poular</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content class="messages">
+      @for (message of messages(); track $index) {
+        <div class="message" [class.user]="message.role === 'user'" [class.bot]="message.role === 'bot'">
+          <div class="bubble">{{ message.text }}</div>
+        </div>
+      }
+    </mat-card-content>
+
+    <mat-card-actions class="input-area">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Pose ta question en poular</mat-label>
+        <textarea
+          matInput
+          rows="3"
+          [value]="question()"
+          (input)="question.set($any($event.target).value)"
+          (keydown.enter)="onKeydown($event)"
+        ></textarea>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" [disabled]="!canSend()" (click)="send()">
+        {{ loading() ? 'En cours...' : 'Envoyer' }}
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

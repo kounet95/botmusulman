@@ -56,6 +56,7 @@ export class ShellComponent {
         { path: 'dashboard', label: 'Tableau de bord', icon: 'dashboard' },
         { path: 'activities', label: 'Activités & Cours', icon: 'event' },
         { path: 'members', label: 'Membres', icon: 'groups' },
+        { path: 'chat', label: 'Chat Coran', icon: 'menu_book' },
       ],
     },
     {

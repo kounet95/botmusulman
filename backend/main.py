@@ -6,7 +6,7 @@ import os
 
 load_dotenv()
 
-from routers import activities, members, content, donations, dashboard, announcements, auth, mosque
+from routers import activities, members, content, donations, dashboard, announcements, auth, mosque, chat
 
 os.makedirs("uploads", exist_ok=True)
 
@@ -31,6 +31,7 @@ app.include_router(donations.router)
 app.include_router(dashboard.router)
 app.include_router(announcements.router)
 app.include_router(mosque.router)
+app.include_router(chat.router)
 
 app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 
