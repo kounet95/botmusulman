@@ -7,7 +7,11 @@ ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-DATA_FILE = ROOT / "bot" / "data" / "quran_pular" / "coran_versets_index.json"
+# Copie locale (backend/data/...) plutôt que bot/data/... : le build Docker du
+# backend n'a que le dossier backend/ comme contexte (voir backend/Dockerfile,
+# COPY . .) — un chemin qui remonte vers bot/ n'existe pas dans l'image et
+# faisait échouer silencieusement la recherche (DATA_FILE.exists() -> False).
+DATA_FILE = Path(__file__).resolve().parents[1] / "data" / "quran_pular" / "coran_versets_index.json"
 
 DIACRITIQUES_RE = re.compile(r"[ؐ-ًؚ-ٟۖ-ۭ]")
 REF_RE = re.compile(r"(\d{1,3})\s*[:,.\-/]\s*(\d{1,3})")

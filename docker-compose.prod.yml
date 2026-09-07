@@ -1,0 +1,15 @@
+# Surcharge de production : utilise les images pré-construites publiées par le
+# pipeline CI/CD (GHCR) au lieu de rebuild localement.
+# Usage : docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+services:
+  backend:
+    build: null
+    image: ghcr.io/kounet95/botmusulman-backend:latest
+
+  bot:
+    build: null
+    image: ghcr.io/kounet95/botmusulman-bot:latest
+
+  dashboard:
+    build: null
+    image: ghcr.io/kounet95/botmusulman-dashboard:latest
